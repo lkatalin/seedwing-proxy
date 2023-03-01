@@ -1,11 +1,11 @@
 
-pattern context = not-affected
+pattern context = bar
 
 pattern not-affected = {
   purl: uri::purl | osv::from-purl | openvex::from-osv | openvex::not-affected
 }
 
-
+pattern bar = minimum && require-lily-sig
 
 pattern foo = minimum && require-invalid-sig
 
@@ -27,6 +27,30 @@ pattern require-invalid-sig = {
                                 extensions: list::any<{
                                     subjectAlternativeName: list::any<{
                                         rfc822: "invalid@invalid.org",
+                                    }>
+                                }>
+                            }> )
+                        )
+                    }
+                }
+            }
+        }>
+    )
+}
+
+pattern require-lily-sig = {
+    hash: sigstore::sha256(
+        list::any<{
+            apiVersion: "0.0.1",
+            spec: {
+                signature: {
+                    publicKey: {
+                        content: base64::base64(
+                            x509::pem( list::any<{
+                                version: 2,
+                                extensions: list::any<{
+                                    subjectAlternativeName: list::any<{
+                                        rfc822: "lsturman@redhat.com",
                                     }>
                                 }>
                             }> )
