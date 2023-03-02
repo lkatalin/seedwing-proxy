@@ -1,5 +1,5 @@
 
-pattern context = minimum
+pattern context = bar
 
 pattern not-affected = {
   purl: uri::purl | osv::from-purl | openvex::from-osv | openvex::not-affected
